@@ -22,11 +22,11 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
 
   return (
     <div>
-      <IconButton my={2} aria-label='Lukk' icon={<CloseIcon />}
+      <IconButton mr={0} my={2} aria-label='Lukk' icon={<CloseIcon />}
       onClick={() => { setProducts([]); }} />
-      <SimpleGrid columns={3} spacing={10}>
+      <SimpleGrid columns={1} spacing={10}>
     {  (products.length != 0) ? products.map((product) => (
-       <Box key={product.id} h='350px' w='200px'>
+       <Box key={product.id} h='350px' w='300px'>
          <Image fallbackSrc="https://via.placeholder.com/250" h='200px' objectFit='cover' src={product.image} alt={product.name} className="margin-auto" />
  
        <h2 className="title">{product.name}</h2>

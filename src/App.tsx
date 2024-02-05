@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar/SearchBar.tsx';
 import Products from './components/Products/Products.jsx';
 import './App.css';
 import ShoppingList from './components/ShoppingList/ShoppingList.tsx';
+import { Container } from '@chakra-ui/react';
 
 
 function App() {
@@ -19,11 +20,12 @@ function App() {
   }, [shoppingList]);
 
   return (
-    <div className="App">
+    <div>
       
       <header>
         
       </header>
+      <Container>
 
       <SearchBar products={products} setProducts={setProducts} />
 
@@ -32,6 +34,8 @@ function App() {
     
 
       { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : ''}
+      </Container>
+
 
 
     </div>

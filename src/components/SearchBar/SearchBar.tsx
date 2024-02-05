@@ -8,27 +8,36 @@ function SearchBar({products, setProducts}) {
     const [search, setSearch] = React.useState("");
 
     const handleChange = (e: any) => {
-        if( e.target.value.length > 6 ) {
-            setSearch(e.target.value);
-        }
+    
+        setSearch(e.target.value);
     
     }
 
     useEffect(() => {
-        if( search != "") {
-            fetch('https://kassal.app/api/v1/products?search=' + search, {
-                method: 'GET',
-                headers: new Headers({
-                    'Authorization' : 'Bearer ' + process.env.REACT_APP_KASSALAPP_API_KEY,
-                }),
-            } )
-            .then((res) => res.json())
-            .then((json) => {
-                
-                setProducts(json?.data);
+
+        const delay = setTimeout(() => {  
+
+            if( search != "") {
+                fetch('https://kassal.app/api/v1/products?search=' + search, {
+                    method: 'GET',
+                    headers: new Headers({
+                        'Authorization' : 'Bearer ' + process.env.REACT_APP_KASSALAPP_API_KEY,
+                    }),
+                } )
+                .then((res) => res.json())
+                .then((json) => {
                     
-            });
+                    setProducts(json?.data);
+                        
+                });
+      
         }
+
+        }, 1500)
+
+        return () => clearTimeout(delay);
+
+            
     }, [search]);
 
     return (
