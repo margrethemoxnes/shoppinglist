@@ -31,7 +31,7 @@ function App() {
         { products.length != 0 ? <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} /> : ''}
     
 
-      { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} /> : ''}
+      { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : ''}
 
 
     </div>

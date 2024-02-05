@@ -22,10 +22,10 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
 
   return (
     <div>
-      <IconButton my={2} aria-label='Fjern fra liste' icon={<CloseIcon />}
+      <IconButton my={2} aria-label='Lukk' icon={<CloseIcon />}
       onClick={() => { setProducts([]); }} />
       <SimpleGrid columns={3} spacing={10}>
-    {  products.map((product) => (
+    {  (products.length != 0) ? products.map((product) => (
        <Box key={product.id} h='350px' w='200px'>
          <Image fallbackSrc="https://via.placeholder.com/250" h='200px' objectFit='cover' src={product.image} alt={product.name} className="margin-auto" />
  
@@ -65,7 +65,7 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
        </HStack>
      </Box> 
  
-     )) }
+     )) : '' }
        </SimpleGrid>
     </div>
   )

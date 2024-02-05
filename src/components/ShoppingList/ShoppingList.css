@@ -1,3 +1,25 @@
 .heading{
     font-size:2em;
 }
+
+li:nth-child(odd){
+    background-color: rgba(0,0,0,0.04);
+
+}
+
+.shoppinglist-buttons{
+    position: absolute;
+    right: 0;
+    margin-top: -0.5em;
+}
+
+
+li{
+    margin: .5em 0;
+    position: relative;
+}
+
+li div{
+    padding: 1em;
+    display: inline-block;
+}
