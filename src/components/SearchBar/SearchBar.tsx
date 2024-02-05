@@ -7,7 +7,9 @@ function SearchBar({products, setProducts, setSpinner, spinner}) {
     const [search, setSearch] = React.useState("");
 
     const handleChange = (e: any) => {
+        if(e.target.value.length >= 3) {
         setSearch(e.target.value);
+        }
     }
 
     useEffect(() => {

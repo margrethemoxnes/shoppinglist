@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Image, Box, NumberInput,
   NumberInputField,
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
 IconButton, Button, Divider, Grid, GridItem } from '@chakra-ui/react'
-import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 import './Products.css'
 
 function Products({products, setProducts, addToShoppingList, shoppingList}) {
+
+  const [addedToList, setAddedToList] = React.useState([0 , false]);
 
   function convertUnits(weightUnit, weight){
     console.log(weightUnit, weight);
@@ -19,6 +21,23 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
     }
     return 'stk';
   }
+
+
+  // function addToShoppingListNotification(event) {
+    
+  //   event.target.innerText = 'Lagt til';
+  //   const delay = setTimeout(() => {  event.target.innerText = 'Legg til'; }, 2000);
+
+  //   return () => clearTimeout(delay);
+  // }
+
+  useEffect(() => {
+    const delay = setTimeout(() => { setAddedToList([0, false]) }, 1000);
+
+    return () => clearTimeout(delay);
+
+  }, [addedToList]);
+
 
   return (
     <div>
@@ -58,13 +77,24 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
           </GridItem> */}
      <GridItem colSpan={3} gap={5}>
 
-     <Button leftIcon={<AddIcon />} colorScheme='pink' variant='solid' size="lg" aria-label='Legg til handleliste' 
+     
+
+          { addedToList[0] === product.id && addedToList[1] === true ?  
+          
+          <Button leftIcon={<CheckIcon />} colorScheme="pink" variant="outline" size="lg" aria-label='Lagt til handleliste'>Lagt til</Button> :
+       
+
+            <Button leftIcon={<AddIcon />} colorScheme='pink' variant='solid' size="lg" aria-label='Legg til handleliste' 
           onClick={() => { 
+
+            setAddedToList([product.id, true]);
+
+            let quantity = document.getElementById('quantity-'+ product.id);
     
             if (shoppingList.some(item => item.id === product.id)) {
               const index = shoppingList.findIndex(item => item.id === product.id)
               const newShoppingList = [...shoppingList]
-              newShoppingList[index].quantity = parseInt(newShoppingList[index].quantity) + parseInt(document.getElementById('quantity').value)
+              newShoppingList[index].quantity = parseInt(newShoppingList[index].quantity) + parseInt(quantity.value)
               addToShoppingList(newShoppingList)
               
             } else {
@@ -75,11 +105,13 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
               name: product.name, 
               image: product.image, 
               price: product.current_price,
-              quantity: parseInt( document.getElementById('quantity-' + product.id).value ),
+              quantity: parseInt( quantity.value ),
               type: convertUnits(product.weight_unit, product.weight),
             }])} 
             }
             } > Legg til</Button>
+        
+          }
         </GridItem>
 
         <GridItem rowSpan={1} colSpan={5} py={10}>
