@@ -22,19 +22,19 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
 
   return (
     <div>
-      <IconButton mr={0} my={2} aria-label='Lukk' icon={<CloseIcon />}
-      onClick={() => { setProducts([]); }} />
+      {/* <IconButton mr={0} my={2} aria-label='Lukk' icon={<CloseIcon />}
+      onClick={() => { setProducts([]); }} /> */}
      
-      <Grid templateRows="repeat(3, 1fr)" templateColumns="repeat(5, 1fr)">
-    {  (products.length != 0) ? products.map((product) => (
+    {  (products.length != 0) ? products.map((product, index) => (
+      <Grid key={index} templateRows="repeat(3, 1fr)" templateColumns="repeat(5, 1fr)">
       
     
      
-       /* <p>kr {product.current_price.toString().split('.')[1].length < 2  ? product.current_price + '0' : product.current_price }</p>
+       {/* /* <p>kr {product.current_price.toString().split('.')[1].length < 2  ? product.current_price + '0' : product.current_price }</p>
        <Image src={product.store.logo} alt={product.store.name} w='50px' /> */
-       /* <HStack align="stretch"> */
+       /* <HStack align="stretch"> */ }
     
-    <>
+    
         <GridItem rowSpan={3} colSpan={2} gap={5} pb={10}>
           <Image pr={5} fallbackSrc="https://via.placeholder.com/250" objectFit='cover' src={product.image} alt={product.name} className="margin-auto" />
         </GridItem>
@@ -85,10 +85,9 @@ function Products({products, setProducts, addToShoppingList, shoppingList}) {
         <GridItem rowSpan={1} colSpan={5} py={10}>
           <Divider />
           </GridItem>
-            
-        </>
-     )) : '' }
+           
        </Grid>
+     )) : '' }
     </div>
   )
 }
