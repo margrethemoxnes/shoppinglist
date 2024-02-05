@@ -1,9 +1,13 @@
 .title{
-    font-size:1.2em;
-    padding: 1em 0;
+    font-size:1.3em;
+    font-weight: 300;
 }
 
 .margin-auto{
     margin: auto
+}
+
+.price{
+    font-size: 2em;
 }
 
