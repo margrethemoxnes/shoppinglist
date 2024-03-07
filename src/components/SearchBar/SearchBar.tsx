@@ -1,10 +1,10 @@
 import React, { Component, useEffect, useState } from "react";
-import { Input, FormControl, FormLabel, InputRightElement, IconButton, InputGroup, } from '@chakra-ui/react'
-import { CloseIcon } from '@chakra-ui/icons'
+import { Input, FormControl, FormLabel, InputRightElement, IconButton, InputGroup, Button, } from '@chakra-ui/react'
+import { CloseIcon, AddIcon } from '@chakra-ui/icons'
 
-function SearchBar({products, setProducts, setSpinner, spinner}) {
+function SearchBar({products, setProducts, setSpinner, search, setSearch}) {
 
-    const [search, setSearch] = React.useState("");
+    const [ searchResults, setSearchResults ] = useState(true);
 
     const handleChange = (e: any) => {
         if(e.target.value.length >= 3) {
@@ -24,10 +24,16 @@ function SearchBar({products, setProducts, setSpinner, spinner}) {
                 } )
                 .then((res) => res.json())
                 .then((json) => {
-                    
+
                     setSpinner(false);
-                    setProducts(json?.data);
-                        
+
+                    if( json?.data.length != 0) {
+
+                        setProducts(json?.data);
+                    } else {
+                        const stringId = search.replace(/\s/g, '').toLowerCase();
+                        setProducts( products = [{ id: stringId, name: search, noResults: true, image: "", price: 0, weight_unit: "stk", weight: "1"}]);
+                    }
                 });
         }}, 1000)
 
@@ -37,6 +43,7 @@ function SearchBar({products, setProducts, setSpinner, spinner}) {
 
 
     return (
+        
         <FormControl pt={5} pb={20}>
             <FormLabel>Søk etter matvare</FormLabel>
             <InputGroup>
@@ -44,15 +51,17 @@ function SearchBar({products, setProducts, setSpinner, spinner}) {
             <InputRightElement>
                 { products.length != 0 ?
                 <IconButton aria-label='Tøm' icon={<CloseIcon />} onClick={(e) => { 
-                    setProducts([]); 
+                    setProducts( products = [{ noResults: false}]); 
                    let searchBar = document.getElementById('searchBar') as HTMLInputElement;
                      searchBar.value = "";
                      searchBar.focus();
                     }} /> : ''}
             </InputRightElement>
             </InputGroup>
-      </FormControl>
-    )
+      
+        </FormControl>
+          
+)
     
 }
 
