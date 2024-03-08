@@ -13,7 +13,6 @@ function Products({products, setProducts, addToShoppingList, shoppingList, produ
 
   const [ quantityForProduct, setQuantity ] = React.useState({quantity: 0, productId: 0});
   const divRef = useRef(null);
-  const [bottomTriggers, setBottomTriggers] = useState([]);
 
  
   useEffect(() => { 
@@ -29,12 +28,7 @@ function Products({products, setProducts, addToShoppingList, shoppingList, produ
     const observer = new IntersectionObserver((entries) => {
       
       if(entries[0].isIntersecting){
-        console.log(entries[0]);
-        if(!bottomTriggers.includes(entries[0].intersectionRect.y)){
-          setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
-          setBottomTriggers(prevBottomTriggers => [...prevBottomTriggers, entries[0].intersectionRect.y]);
-          
-        }
+        setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
       }
     });
     observer.observe(divRef.current);
