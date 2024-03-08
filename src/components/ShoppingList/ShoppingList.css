@@ -7,12 +7,6 @@ li:nth-child(odd){
 
 }
 
-.shoppinglist-buttons{
-    position: absolute;
-    right: 0;
-    margin-top: -0.5em;
-}
-
 
 li{
     margin: .5em 0;

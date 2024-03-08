@@ -47,7 +47,7 @@ function SearchBar({products, setProducts, setSpinner, search, setSearch}) {
         <FormControl pt={5} pb={20}>
             <FormLabel>Søk etter matvare</FormLabel>
             <InputGroup>
-            <Input id="searchBar" onChange={handleChange} placeholder='Søk etter matvare...' />
+            <Input id="searchBar" onChange={handleChange} placeholder='Søk etter dagligvare...' />
             <InputRightElement>
                 { products.length != 0 ?
                 <IconButton aria-label='Tøm' icon={<CloseIcon />} onClick={(e) => { 

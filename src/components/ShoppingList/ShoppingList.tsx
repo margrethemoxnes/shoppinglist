@@ -1,22 +1,19 @@
 import React from "react";
 import "./ShoppingList.css";
-import { Box, Heading, List, ListItem, IconButton, ButtonGroup } from "@chakra-ui/react";
-import { AddIcon, MinusIcon, DeleteIcon } from '@chakra-ui/icons'
+import { Box, Heading, List, ListItem, IconButton, ButtonGroup, useDisclosure } from "@chakra-ui/react";
+import { EditIcon, MinusIcon, DeleteIcon } from '@chakra-ui/icons'
+import {
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+  } from '@chakra-ui/react'
+import ShoppingListItem from "./../ShoppingListItem/ShoppingListItem.tsx";
 
-function ShoppingList({shoppingList, addToShoppingList}) {
-
-
-    function adjust_quantity(product, add:boolean) {
-        const new_shopping_list = [...shoppingList];
-        const index = new_shopping_list.findIndex((p) => p.id === product.id);
-        if( add ){
-
-            new_shopping_list[index].quantity++;
-        } else {
-            new_shopping_list[index].quantity--;
-        }
-        addToShoppingList(new_shopping_list);
-    }
+function ShoppingList({shoppingList, addToShoppingList }) {
 
     function remove_product(product) {
         const new_shopping_list = [...shoppingList];
@@ -33,15 +30,11 @@ function ShoppingList({shoppingList, addToShoppingList}) {
                 <ListItem key={index}>
                     <div>{product.name} - {product.quantity} {product.type} </div>
                     <ButtonGroup className="shoppinglist-buttons" variant='outline' spacing='1'>
-                    <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Legg til' icon={<AddIcon />}
-                    onClick={() => {
-                        adjust_quantity(product, true);
-                    }} />
-                    <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Reduser' icon={<MinusIcon />} onClick={() => { adjust_quantity(product, false); }} />
+                     <ShoppingListItem id={product.id} quantity={product.quantity} shoppingList={shoppingList} addToShoppingList={addToShoppingList} />
                     <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Fjern fra liste' icon={<DeleteIcon />}
-                    onClick={() => {
-                        remove_product(product);
-                    }} />
+                        onClick={() => {
+                            remove_product(product);
+                        }} />
                     </ButtonGroup>
                 </ListItem>
             ))}
