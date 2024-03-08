@@ -28,7 +28,9 @@ function Products({products, setProducts, addToShoppingList, shoppingList, produ
     const observer = new IntersectionObserver((entries) => {
       
       if(entries[0].isIntersecting){
+        console.log(entries[0].isIntersecting);
         setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
+        console.log('products: ', products);
       }
     });
     observer.observe(divRef.current);
