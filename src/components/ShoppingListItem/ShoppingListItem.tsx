@@ -29,7 +29,7 @@ function ShoppingListItem({id, quantity, shoppingList, addToShoppingList }){
     return(
         <>
         <IconButton onClick={onOpen} className="shoppinglist-buttons-button" mx={1} aria-label='Legg til' icon={<EditIcon />} />
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
                     <ModalOverlay />
                         <ModalContent>
                             <ModalHeader>Endre antall</ModalHeader>
