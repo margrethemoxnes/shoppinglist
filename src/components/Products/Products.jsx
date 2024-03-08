@@ -28,12 +28,11 @@ function Products({products, setProducts, addToShoppingList, shoppingList, produ
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       
-      console.log(entries[0]);
       if(entries[0].isIntersecting){
-        setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
-        if(!bottomTriggers.includes(entries[0].boundingClientRect.bottom)){
-          // setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
-          //setBottomTriggers(prevBottomTriggers => [...prevBottomTriggers, entries[0].boundingClientRect.bottom]);
+        console.log(entries[0]);
+        if(!bottomTriggers.includes(entries[0].intersectionRect.y)){
+          setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
+          setBottomTriggers(prevBottomTriggers => [...prevBottomTriggers, entries[0].intersectionRect.y]);
           
         }
       }
