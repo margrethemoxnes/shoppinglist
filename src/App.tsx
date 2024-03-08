@@ -23,13 +23,15 @@ function App() {
     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));  
   }, [shoppingList]);
 
+
+
   return (
   
       <Container>
 
         <SearchBar products={products} setProducts={setProducts} spinner={spinner} setSpinner={setSpinner} search={search} setSearch={setSearch} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
 
-        { spinner ? <Flex alignItems="center"><Spinner /></Flex> : '' }
+        { spinner ? <Center mt={150}><Spinner /></Center> : '' }
         
           { products[0].noResults == true ? <NoResult products={products} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : '' }
 
@@ -37,7 +39,7 @@ function App() {
           {( products.length != 0 && products[0].noResults == undefined ) ? 
             <>
               <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
-              { spinner ? <Flex alignItems="center"><Spinner /></Flex> : '' }
+              { spinner ? <Center mt={150}><Spinner /></Center> : '' }
             </>  
               : ''}
 

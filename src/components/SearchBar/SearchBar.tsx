@@ -17,7 +17,7 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
 
     const handleChange = (e: any) => {
         if(e.target.value.length >= 3) {
-        setSearch(e.target.value);
+            setSearch(e.target.value);
         } else {
             resetSearch();
         }
@@ -40,12 +40,14 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
 
     function triggerAPI(search){
         
-        if( spinner != true) { // Only trigger API if not already loading
+        if( !spinner ) { // Only trigger API if not already loading
+
+            setSpinner(true);
 
             if( productListBottom == true) {
                 setPage(page + 1);
-             }
-            setSpinner(true);
+            }
+
             setProductListBottom(false);
             fetch('https://kassal.app/api/v1/products?search=' + search + '&page=' + page, {
                 method: 'GET',
@@ -72,7 +74,9 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                     const stringId = search.replace(/\s/g, '').toLowerCase();
                     setProducts( products = [{ id: stringId, name: search, noResults: true, image: "", price: 0, weight_unit: "stk", weight: "1"}]);
                 }
-            }).then(() => { setSpinner(false); });
+
+                setSpinner(false);
+            });
         }
     }
 
