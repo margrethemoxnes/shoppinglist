@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Image, Box, NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -9,25 +9,44 @@ IconButton, Button, Divider, Grid, GridItem } from '@chakra-ui/react'
 import './Products.css'
 import AddToList from "./../AddToList/AddToList.tsx"
 
-function Products({products, setProducts, addToShoppingList, shoppingList}) {
+function Products({products, setProducts, addToShoppingList, shoppingList, productListBottom, setProductListBottom}) {
 
   const [ quantityForProduct, setQuantity ] = React.useState({quantity: 0, productId: 0});
+  const divRef = useRef(null);
+  const [bottomTriggers, setBottomTriggers] = useState([]);
 
+ 
   useEffect(() => { 
     if( quantityForProduct.quantity == 0){
       return;
     }
     const btn = document.getElementById('add-'+ quantityForProduct.productId);
     btn.setAttribute('quantity', quantityForProduct.quantity);
-    console.log(quantityForProduct)
   }, [quantityForProduct]);
 
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      
+      if(entries[0].isIntersecting){
+        if(!bottomTriggers.includes(entries[0].boundingClientRect.bottom)){
+          setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
+          setBottomTriggers(prevBottomTriggers => [...prevBottomTriggers, entries[0].boundingClientRect.bottom]);
+          
+        }
+      }
+    });
+    observer.observe(divRef.current);
+    return () => observer.disconnect();
+}, [products]);
+
+
+
   return (
-    <div>
+    <div id="productList">
      
     {  ( !products?.noResults && products.length != 0) ? products.map((product, index) => (
-      <Grid key={index} templateRows="repeat(3, 1fr)" templateColumns="repeat(5, 1fr)">
+      <Grid ref={divRef} key={index} templateRows="repeat(3, 1fr)" templateColumns="repeat(5, 1fr)">
       
      
        {/* /* <p>kr {product.current_price.toString().split('.')[1].length < 2  ? product.current_price + '0' : product.current_price }</p>

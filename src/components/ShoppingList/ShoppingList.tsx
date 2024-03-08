@@ -23,7 +23,7 @@ function ShoppingList({shoppingList, addToShoppingList }) {
     }
 
   return (
-    <Box my={6}>
+    <Box my={150}>
         <Heading as='h1' size='xl'>Handleliste</Heading>
         <List pt={5}>
             {shoppingList.map((product, index) => (

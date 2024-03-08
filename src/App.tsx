@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar/SearchBar.tsx';
 import Products from './components/Products/Products.jsx';
-import './App.css';
 import ShoppingList from './components/ShoppingList/ShoppingList.tsx';
 import { Box, Center, Container, Flex, Spinner } from '@chakra-ui/react';
 import NoResult from './components/NoResult/NoResult.tsx';
@@ -17,30 +16,32 @@ function App() {
   
   });
   const [spinner, setSpinner] = React.useState(false);
+  const [ productListBottom, setProductListBottom ] = useState(false);
+
 
   useEffect(() => {
     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));  
   }, [shoppingList]);
 
-
-
   return (
   
       <Container>
 
-        <SearchBar products={products} setProducts={setProducts} setSpinner={setSpinner} search={search} setSearch={setSearch}/>
+        <SearchBar products={products} setProducts={setProducts} spinner={spinner} setSpinner={setSpinner} search={search} setSearch={setSearch} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
 
         { spinner ? <Flex alignItems="center"><Spinner /></Flex> : '' }
         
           { products[0].noResults == true ? <NoResult products={products} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : '' }
 
       
-          {( products.length != 0 && products[0].noResults == undefined ) ? <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} /> : ''}
-        
+          {( products.length != 0 && products[0].noResults == undefined ) ? 
+            <>
+              <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
+              { spinner ? <Flex alignItems="center"><Spinner /></Flex> : '' }
+            </>  
+              : ''}
 
-        
-
-        { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : ''}
+          { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : ''}
 
       </Container>
   );

@@ -11,3 +11,9 @@
     font-size: 2em;
 }
 
+#productList{
+    display:block; 
+    overflow:auto;
+    margin-top: 15em;
+}
+
