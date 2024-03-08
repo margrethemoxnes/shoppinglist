@@ -17,3 +17,19 @@ li div{
     padding: 1em;
     display: inline-block;
 }
+
+.w-70{ width: 70%;}
+
+.relative{
+    position: relative;
+}
+
+.absolute-right{
+    position: absolute;
+    right: 0;
+    top:0;
+}
+
+.list-item{
+     line-height: 1.6em;
+}

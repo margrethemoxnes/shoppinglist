@@ -1,6 +1,6 @@
 import React from "react";
 import "./ShoppingList.css";
-import { Box, Heading, List, ListItem, IconButton, ButtonGroup, useDisclosure } from "@chakra-ui/react";
+import { Box, Heading, List, ListItem, IconButton, ButtonGroup, useDisclosure, Stack } from "@chakra-ui/react";
 import { EditIcon, MinusIcon, DeleteIcon } from '@chakra-ui/icons'
 import {
     Modal,
@@ -12,6 +12,7 @@ import {
     ModalCloseButton,
   } from '@chakra-ui/react'
 import ShoppingListItem from "./../ShoppingListItem/ShoppingListItem.tsx";
+import { Grid, GridItem } from '@chakra-ui/react'
 
 function ShoppingList({shoppingList, addToShoppingList }) {
 
@@ -27,15 +28,20 @@ function ShoppingList({shoppingList, addToShoppingList }) {
         <Heading as='h1' size='xl'>Handleliste</Heading>
         <List pt={5}>
             {shoppingList.map((product, index) => (
-                <ListItem key={index}>
-                    <div>{product.name} - {product.quantity} {product.type} </div>
-                    <ButtonGroup className="shoppinglist-buttons" variant='outline' spacing='1'>
-                     <ShoppingListItem id={product.id} quantity={product.quantity} shoppingList={shoppingList} addToShoppingList={addToShoppingList} />
-                    <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Fjern fra liste' icon={<DeleteIcon />}
+                <ListItem className="relative" key={index}>
+                    <div className="w-70 list-item"><p><strong>{product.quantity} {product.type}</strong>: {product.name}</p></div>
+                 
+                    <ButtonGroup size={"lg"} className="shoppinglist-buttons absolute-right" variant='outline'>
+                        
+                        <ShoppingListItem id={product.id} quantity={product.quantity} shoppingList={shoppingList} addToShoppingList={addToShoppingList} />
+                        <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Fjern fra liste' icon={<DeleteIcon />}
                         onClick={() => {
                             remove_product(product);
                         }} />
+                            
                     </ButtonGroup>
+                  
+                    
                 </ListItem>
             ))}
         </List>
