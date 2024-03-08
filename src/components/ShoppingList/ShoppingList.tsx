@@ -29,7 +29,7 @@ function ShoppingList({shoppingList, addToShoppingList }) {
         <List pt={5}>
             {shoppingList.map((product, index) => (
                 <ListItem className="relative" key={index}>
-                    <div className="w-70 list-item"><p><strong>{product.quantity} {product.type}</strong>: {product.name}</p></div>
+                    <div className="w-60 list-item"><p><strong>{product.quantity} {product.type}</strong>: {product.name}</p></div>
                  
                     <ButtonGroup size={"lg"} className="shoppinglist-buttons absolute-right" variant='outline'>
                         
