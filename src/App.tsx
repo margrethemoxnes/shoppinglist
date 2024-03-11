@@ -23,8 +23,6 @@ function App() {
     localStorage.setItem('shoppingList', JSON.stringify(shoppingList));  
   }, [shoppingList]);
 
-
-
   return (
   
       <Container>
@@ -39,7 +37,7 @@ function App() {
           {( products.length != 0 && products[0].noResults == undefined ) ? 
             <>
               <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
-              { spinner ? <Center mt={150}><Spinner /></Center> : '' }
+              { spinner ? <Center mt={5} mb={10}><Spinner /></Center> : '' }
             </>  
               : ''}
 

@@ -47,8 +47,7 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
             if( productListBottom == true) {
                 setPage(page + 1);
             }
-
-            setProductListBottom(false);
+          
             fetch('https://kassal.app/api/v1/products?search=' + search + '&page=' + page, {
                 method: 'GET',
                 headers: new Headers({
@@ -74,10 +73,13 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                     const stringId = search.replace(/\s/g, '').toLowerCase();
                     setProducts( products = [{ id: stringId, name: search, noResults: true, image: "", price: 0, weight_unit: "stk", weight: "1"}]);
                 }
-
+            }).then(() => {
                 setSpinner(false);
-            });
+                setProductListBottom(false);
+            }).catch((error) => { console.log(error); });
+
         }
+
     }
 
 
