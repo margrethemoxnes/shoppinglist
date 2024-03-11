@@ -5,15 +5,18 @@ import { Image, Box, NumberInput,
   NumberIncrementStepper,
   NumberDecrementStepper,
 IconButton, Button, Divider, Grid, GridItem } from '@chakra-ui/react'
-
+import { useInView } from 'react-intersection-observer';
 import './Products.css'
 import AddToList from "./../AddToList/AddToList.tsx"
 
 function Products({products, setProducts, addToShoppingList, shoppingList, productListBottom, setProductListBottom}) {
 
-  const [ quantityForProduct, setQuantity ] = React.useState({quantity: 0, productId: 0});
-  const divRef = useRef(null);
+  const { ref: divRef, inView: inView } = useInView({
+    /* Optional options */
+    threshold: 0,
+  });
 
+  const [ quantityForProduct, setQuantity ] = React.useState({quantity: 0, productId: 0});
  
   useEffect(() => { 
     if( quantityForProduct.quantity == 0){
@@ -24,18 +27,11 @@ function Products({products, setProducts, addToShoppingList, shoppingList, produ
   }, [quantityForProduct]);
 
 
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      
-      if(entries[0].isIntersecting){
-        console.log(entries[0].isIntersecting);
-        setProductListBottom(entries[0].isIntersecting); // true if latest entry is visible
-        console.log('products: ', products);
-      }
-    });
-    observer.observe(divRef.current);
-    return () => observer.disconnect();
-}, [products]);
+useEffect(() => {
+    if(inView){
+      setProductListBottom(inView);
+    }
+}, [inView]);
 
 
 
