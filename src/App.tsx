@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import SearchBar from './components/SearchBar/SearchBar.tsx';
-import Products from './components/Products/Products.jsx';
+import Products from './components/Products/Products.tsx';
 import ShoppingList from './components/ShoppingList/ShoppingList.tsx';
 import { Box, Center, Container, Flex, Spinner } from '@chakra-ui/react';
 import NoResult from './components/NoResult/NoResult.tsx';
 
 
 function App() {
-  const [search, setSearch] = React.useState("");
-  const [products, setProducts] = React.useState([{noResults: false}]);
-  const [shoppingList, addToShoppingList] = React.useState(() => {
+  const [search, setSearch] = useState("");
+  const [noResults, setNoResults] = useState(null);
+  const [products, setProducts] = useState([{
+    id: 0,
+    ean: 0,
+    name: "",
+    image: "",
+    weight_unit: "stk", 
+    weight: "1",
+    store: {
+      name: "",
+      code: "",
+      logo: ""
+    },
+    price: ""
+  }]);
+
+  const [shoppingList, addToShoppingList] = useState(() => {
     const saved = localStorage.getItem('shoppingList');
     const initialValue = saved != undefined ? JSON.parse(saved) : [];
     return initialValue;
   
   });
-  const [spinner, setSpinner] = React.useState(false);
+  const [spinner, setSpinner] = useState(false);
   const [ productListBottom, setProductListBottom ] = useState(false);
 
 
@@ -27,21 +42,21 @@ function App() {
   
       <Container>
 
-        <SearchBar products={products} setProducts={setProducts} spinner={spinner} setSpinner={setSpinner} search={search} setSearch={setSearch} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
+        <SearchBar products={products} setProducts={setProducts} spinner={spinner} setSpinner={setSpinner} search={search} setSearch={setSearch} productListBottom={productListBottom} setProductListBottom={setProductListBottom} setNoResults={setNoResults} />
 
-        { spinner ? <Center mt={150}><Spinner /></Center> : '' }
+        { spinner && <Center mt={150}><Spinner /></Center> }
         
-          { products[0].noResults == true ? <NoResult products={products} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : '' }
+          { noResults == true && <NoResult products={products} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> }
 
       
-          {( products.length != 0 && products[0].noResults == undefined ) ? 
+          {( products.length != 0 && noResults == null ) && 
             <>
               <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
-              { spinner ? <Center mt={5} mb={10}><Spinner /></Center> : '' }
+              { spinner && <Center mt={5} mb={10}><Spinner /></Center> }
             </>  
-              : ''}
+              }
 
-          { shoppingList.length != 0 ? <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> : ''}
+          { shoppingList.length != 0 && <ShoppingList shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> }
 
       </Container>
   );

@@ -3,7 +3,7 @@ import { Input, FormControl, FormLabel, InputRightElement, IconButton, InputGrou
 import { CloseIcon, AddIcon } from '@chakra-ui/icons'
 import './SearchBar.css'
 
-function SearchBar({products, setProducts, spinner, setSpinner, search, setSearch, productListBottom, setProductListBottom}) {
+function SearchBar({products, setProducts, spinner, setSpinner, search, setSearch, productListBottom, setProductListBottom, setNoResults}) {
 
     const [ searchResults, setSearchResults ] = useState([{id: 0}]);
     const [ page, setPage ] = useState(1);
@@ -11,8 +11,21 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
     function resetSearch(){
 
         setSearch("");
-        setProducts( products = [{ noResults: false}]);
+        setProducts( products = [{ 
+            id: 0,
+            ean: 0,
+            name: "",
+            image: "",
+            weight_unit: "stk", 
+            weight: "1",
+            store: {
+              name: "",
+              code: "",
+              logo: ""
+            },
+            price: ""}]);
         setPage(1);
+        setNoResults(null);
     }
 
     const handleChange = (e: any) => {
@@ -48,7 +61,7 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                 setPage(page + 1);
             }
           
-            fetch('https://kassal.app/api/v1/products?search=' + search + '&page=' + page, {
+            fetch('https://kassal.app/api/v1/products?sort=date_asc&exclude_without_ean=1&unique=1&price_max=600&search=' + search + '&page=' + page, {
                 method: 'GET',
                 headers: new Headers({
                     'Authorization' : 'Bearer ' + process.env.REACT_APP_KASSALAPP_API_KEY,
@@ -56,7 +69,7 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
             } )
             .then((res) => res.json())
             .then((json) => {
-
+    console.log(json.data);
                 if( json?.data.length != 0) {
                     
                     if( page == 1) {
@@ -71,7 +84,21 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                     }
                 } else {
                     const stringId = search.replace(/\s/g, '').toLowerCase();
-                    setProducts( products = [{ id: stringId, name: search, noResults: true, image: "", price: 0, weight_unit: "stk", weight: "1"}]);
+                    setProducts( products = [{ 
+                        id: stringId, 
+                        ean: 0,
+                        name: "",
+                        image: "",
+                        weight_unit: "stk", 
+                        weight: "1",
+                        store: {
+                          name: "",
+                          code: "",
+                          logo: ""
+                        },
+                        price: ""
+                    }]);
+                    setNoResults(true);
                 }
             }).then(() => {
                 setSpinner(false);
@@ -90,13 +117,13 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                 <InputGroup>
                 <Input id="searchBar" onChange={handleChange} placeholder='Søk etter dagligvare...' />
                 <InputRightElement>
-                    { products.length != 0 ?
+                    { products.length != 0 &&
                     <IconButton aria-label='Tøm' icon={<CloseIcon />} onClick={(e) => {
                         let searchBar = document.getElementById('searchBar') as HTMLInputElement;
                         searchBar.value = "";
                         searchBar.focus(); 
                         resetSearch();
-                        }} /> : ''}
+                        }} /> }
                 </InputRightElement>
                 </InputGroup>
         
