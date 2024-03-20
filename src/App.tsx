@@ -49,7 +49,7 @@ function App() {
           { noResults == true && <NoResult products={products} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> }
 
       
-          {( products.length != 0 && noResults == null ) && 
+          {( noResults == false ) && 
             <>
               <Products products={products} setProducts={setProducts} addToShoppingList={addToShoppingList} shoppingList={shoppingList} productListBottom={productListBottom} setProductListBottom={setProductListBottom} />
               { spinner && <Center mt={5} mb={10}><Spinner /></Center> }

@@ -18,10 +18,16 @@ function ProductItem({product, products, setProducts}) {
 
     const [chosenPrice, setChosenPrice] = useState({store:{name:'', code:'', logo:''}, current_price: {price: '', unit_price: '', date: ''}});
 
+    const [ storeCode, setStoreCode ] = useState(product.store.code);
+
     var excluded_stores = ['engrosnett']
 
     const filteredProductsByEan = productsByEan.filter( productByEan => productByEan.store != null ).sort((a,b) => parseFloat(a.current_price.price) - parseFloat(b.current_price.price));
 
+    const openModal = () => { 
+        getPriceByEan(product.ean);
+        setChosenPrice({store:{name:product.store.name, code:product.store.code, logo:product.store.logo}, current_price: {price: product.current_price, unit_price: '', date: ''}});
+        onOpen(); }
 
     function getPriceByEan(ean){
         fetch('https://kassal.app/api/v1/products/ean/' + ean, {
@@ -65,11 +71,13 @@ function ProductItem({product, products, setProducts}) {
     
     return (
         <>
+            <SimpleGrid columns={2} spacing={2} >
             <p className="price">{getPrice(product?.current_price)}</p>
-            <Image src={product.store.logo} alt={product.store.name} onClick={() => {
-                getPriceByEan(product.ean);
-                onOpen();
+            <Image src={product.store.logo} alt={product.store.name} height="50px" onClick={() => {
+               openModal();
             }}/>
+            <p onClick={() => { openModal(); }}>Se andre priser</p>
+            </SimpleGrid>
                 
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
@@ -79,13 +87,13 @@ function ProductItem({product, products, setProducts}) {
                         { (filteredProductsByEan) &&
                         <>
                         <p><strong>{product.name}</strong></p>
-                        <RadioGroup mt={3} > 
+                        <RadioGroup mt={3} onChange={setStoreCode} value={storeCode}> 
                         <SimpleGrid columns={3} spacing={2}>
 
                             {
                             filteredProductsByEan.map( (productByEan, index) => 
                                     <Box key={index} className="store" onClick={()=>{ setChosenPrice(productByEan); } } >
-                                        <Radio name="store">
+                                        <Radio name="store" value={productByEan.store.code}>
                                             <p>{productByEan.store?.name +':'}</p><strong>{getPrice(productByEan?.current_price?.price)}</strong>
                                         </Radio>
                                     </Box>
@@ -98,9 +106,12 @@ function ProductItem({product, products, setProducts}) {
                     </ModalBody>
                     <ModalFooter>
                         <Button w="100%" onClick={()=>{
-                            onClose();
                             setProductsByEan([]);
+                            console.log(chosenPrice.store.code);
+                      
                             updateProduct(product, chosenPrice);
+                            
+                            onClose();
                         }}>OK</Button>
                     </ModalFooter>
                 </ModalContent>

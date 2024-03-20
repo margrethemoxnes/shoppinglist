@@ -82,6 +82,7 @@ function SearchBar({products, setProducts, spinner, setSpinner, search, setSearc
                             setProducts(products => [...products, ...json?.data]);
                         }  
                     }
+                    setNoResults(false);
                 } else {
                     const stringId = search.replace(/\s/g, '').toLowerCase();
                     setProducts( products = [{ 
