@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Button } from "@chakra-ui/react";
 import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 
-function AddToList({ id, label, product, quantity, shoppingList, addToShoppingList}) {
+function AddToList({ setProductsByEan, chosenPrice, id, label, product, quantity, shoppingList, addToShoppingList}) {
     const [addedToList, setAddedToList] = useState([0 , false]); // @params: [productId: int, addedToList: bool]
  
     function convertUnits(weightUnit, weight){
@@ -42,18 +42,27 @@ function AddToList({ id, label, product, quantity, shoppingList, addToShoppingLi
               const newShoppingList = [...shoppingList]
               newShoppingList[index].quantity = parseInt(newShoppingList[index].quantity) != undefined ? parseInt(newShoppingList[index].quantity) + parseInt(quantity_attribute) : parseInt(quantity_attribute)
               addToShoppingList(newShoppingList)
-            } else {
+            } 
             
-        
-            addToShoppingList(shoppingList => [...shoppingList, 
-            {
-              id: product.id,
-              name: product.name, 
-              image: product.image, 
-              price: product.current_price,
-              quantity: parseInt(quantity_attribute),
-              type: convertUnits(product.weight_unit, product.weight),
-            }] )} }
+            if( shoppingList.some(item => item.store === product.store.name) ){
+              const index = shoppingList.findIndex(item => item.store === product.store.name)
+              const newShoppingList = [...shoppingList]
+              newShoppingList[index].items = [...newShoppingList[index].items, 
+                { id: product.id, name: product.name, image: product.image, price: product.current_price, quantity: parseInt(quantity_attribute), type: convertUnits(product.weight_unit, product.weight) }]
+              addToShoppingList(newShoppingList)
+            } else {
+              addToShoppingList(shoppingList => [...shoppingList,
+                { store: product.store.name,
+                items:[{
+                  id: product.id,
+                  name: product.name, 
+                  image: product.image, 
+                  price: product.current_price,
+                  quantity: parseInt(quantity_attribute),
+                  type: convertUnits(product.weight_unit, product.weight),
+                }]} 
+            
+            ] )} }
           
           } > {label}</Button>
         }

@@ -64,13 +64,13 @@ return (
             </GridItem>
             <GridItem colSpan={3} pl={5}>
             
-              <ProductItem product={product} products={products} setProducts={setProducts} /> 
+              <ProductItem product={product} products={products} setProducts={setProducts} shoppingList={shoppingList} addToShoppingList={addToShoppingList} /> 
 
             </GridItem>
           
             <GridItem colSpan={3} gap={5}>
 
-              <AddToList id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
+              <AddToList setProductsByEan={false} chosenPrice={false} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
     
             </GridItem>
 

@@ -6,11 +6,13 @@ ModalHeader,
 ModalFooter,
 ModalBody,
 useDisclosure,
+ModalCloseButton,
 Button, Image, Radio, RadioGroup, SimpleGrid, Box } from "@chakra-ui/react";
+import AddToList from './../AddToList/AddToList.tsx';
 
 
 
-function ProductItem({product, products, setProducts}) {
+function ProductItem({product, products, setProducts, shoppingList, addToShoppingList}) {
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -83,6 +85,7 @@ function ProductItem({product, products, setProducts}) {
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Sjekk priser</ModalHeader>
+                    <ModalCloseButton />
                     <ModalBody>
                         { (filteredProductsByEan) &&
                         <>
@@ -105,14 +108,15 @@ function ProductItem({product, products, setProducts}) {
                             }
                     </ModalBody>
                     <ModalFooter>
-                        <Button w="100%" onClick={()=>{
+                        <AddToList setProductsByEan={setProductsByEan} chosenPrice={chosenPrice} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
+                        {/* <Button w="100%" onClick={()=>{
                             setProductsByEan([]);
                             console.log(chosenPrice.store.code);
                       
                             updateProduct(product, chosenPrice);
                             
                             onClose();
-                        }}>OK</Button>
+                        }}>OK</Button> */}
                     </ModalFooter>
                 </ModalContent>
             </Modal>

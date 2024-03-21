@@ -16,35 +16,55 @@ import { Grid, GridItem } from '@chakra-ui/react'
 
 function ShoppingList({shoppingList, addToShoppingList }) {
 
-    function remove_product(product) {
+    function remove_product(product, storeIndex, productIndex) {
         const new_shopping_list = [...shoppingList];
-        const index = new_shopping_list.findIndex((p) => p.id === product.id);
-        new_shopping_list.splice(index, 1);
+        new_shopping_list[storeIndex].items.splice(productIndex, 1);
+        if(new_shopping_list[storeIndex].items.length == 0){
+            new_shopping_list.splice(storeIndex, 1);
+        }
         addToShoppingList(new_shopping_list);
+    }
+
+    function getShoppingListTotal(){
+        let total = 0;
+        shoppingList.map((store) => {
+            store.items.map((item) => {
+                total += item.price * item.quantity;
+            })
+        })
+        return total.toFixed(2);
     }
 
   return (
     <Box my={150}>
-        <Heading as='h1' size='xl'>Handleliste</Heading>
-        <List pt={5}>
-            {shoppingList.map((product, index) => (
-                <ListItem className="relative" key={index}>
-                    <div className="w-60 list-item"><p><strong>{product.quantity} {product.type}</strong>: {product.name}</p></div>
-                 
-                    <ButtonGroup size={"lg"} className="shoppinglist-buttons absolute-right" variant='outline'>
+        <Heading as='h1' size='xl' pb={7}>Handleliste</Heading>
+        {shoppingList.map((product, index) => (
+            <>
+            <Heading as='h2' size='l' key={index}>{product.store}</Heading>
+            
+                <List>
+                    {product.items.map((p, p_index) => (
+                        <ListItem className="relative" key={p_index}>
+                            <div className="w-60 list-item"><p><strong>{p.quantity} {p.type}</strong>: {p.name}</p><p>kr {p.price}</p></div>
                         
-                        <ShoppingListItem id={product.id} quantity={product.quantity} shoppingList={shoppingList} addToShoppingList={addToShoppingList} />
-                        <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Fjern fra liste' icon={<DeleteIcon />}
-                        onClick={() => {
-                            remove_product(product);
-                        }} />
+                            <ButtonGroup size={"lg"} className="shoppinglist-buttons absolute-right" variant='outline'>
+                                
+                                <ShoppingListItem id={p.id} quantity={p.quantity} shoppingList={shoppingList} addToShoppingList={addToShoppingList} store={product.store} />
+                                <IconButton className="shoppinglist-buttons-button" mx={1} aria-label='Fjern fra liste' icon={<DeleteIcon />}
+                                onClick={() => {
+                                    remove_product(p, index, p_index);
+                                }} />
+                                    
+                            </ButtonGroup>
+                        
                             
-                    </ButtonGroup>
-                  
-                    
-                </ListItem>
-            ))}
-        </List>
+                        </ListItem>
+                    ))}
+                        
+                </List>
+            </>
+        ))}
+        <Heading as='h3' size='m'>Total sum: kr {getShoppingListTotal()}</Heading>
     </Box>
     )
 }
