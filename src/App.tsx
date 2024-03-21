@@ -25,9 +25,8 @@ function App() {
   }]);
 
   const [shoppingList, addToShoppingList] = useState(() => {
-    //const saved = localStorage.getItem('shoppingList');
-    //const initialValue = saved != undefined ? JSON.parse(saved) : [];
-    const initialValue = [];
+    const saved = localStorage.getItem('shoppingList');
+    const initialValue = saved != undefined ? JSON.parse(saved) : [];
     return initialValue;
   
   });
@@ -37,7 +36,7 @@ function App() {
 
   useEffect(() => {
     console.log(shoppingList);
-    //localStorage.setItem('shoppingList', JSON.stringify(shoppingList));  
+    localStorage.setItem('shoppingList', JSON.stringify(shoppingList));  
   }, [shoppingList]);
 
   return (
