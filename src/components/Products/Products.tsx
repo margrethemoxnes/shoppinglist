@@ -70,7 +70,7 @@ return (
           
             <GridItem colSpan={3} gap={5}>
 
-              <AddToList setProductsByEan={false} chosenPrice={false} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
+              <AddToList products={products} setProductsByEan={false} chosenPrice={false} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
     
             </GridItem>
 

@@ -95,7 +95,7 @@ function ProductItem({product, products, setProducts, shoppingList, addToShoppin
 
                             {
                             filteredProductsByEan.map( (productByEan, index) => 
-                                    <Box key={index} className="store" onClick={()=>{ setChosenPrice(productByEan); } } >
+                                    <Box key={index} className="store" onClick={()=>{ setChosenPrice(productByEan); updateProduct(product, chosenPrice); } } >
                                         <Radio name="store" value={productByEan.store.code}>
                                             <p>{productByEan.store?.name +':'}</p><strong>{getPrice(productByEan?.current_price?.price)}</strong>
                                         </Radio>
@@ -108,7 +108,7 @@ function ProductItem({product, products, setProducts, shoppingList, addToShoppin
                             }
                     </ModalBody>
                     <ModalFooter>
-                        <AddToList setProductsByEan={setProductsByEan} chosenPrice={chosenPrice} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
+                        <AddToList products={products} setProductsByEan={setProductsByEan} chosenPrice={chosenPrice} id={'add-' + product.id} label="Legg til" product={product} shoppingList={shoppingList} addToShoppingList={addToShoppingList} quantity={1} />
                         {/* <Button w="100%" onClick={()=>{
                             setProductsByEan([]);
                             console.log(chosenPrice.store.code);

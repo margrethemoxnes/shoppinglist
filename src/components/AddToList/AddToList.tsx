@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Button } from "@chakra-ui/react";
 import { AddIcon, CheckIcon } from '@chakra-ui/icons'
 
-function AddToList({ setProductsByEan, chosenPrice, id, label, product, quantity, shoppingList, addToShoppingList}) {
+function AddToList({ products, setProductsByEan, chosenPrice, id, label, product, quantity, shoppingList, addToShoppingList}) {
     const [addedToList, setAddedToList] = useState([0 , false]); // @params: [productId: int, addedToList: bool]
  
     function convertUnits(weightUnit, weight){
@@ -13,6 +13,13 @@ function AddToList({ setProductsByEan, chosenPrice, id, label, product, quantity
       }
       return 'stk';
     }
+
+    // function updateProduct(product, chosenPrice){
+    //   var index = products.findIndex( theProduct => theProduct.ean == product.ean );
+
+    //   products[index].current_price = chosenPrice.current_price.price;
+    //   products[index].store = chosenPrice.store;
+    // }
 
 
     useEffect(() => {
@@ -36,6 +43,8 @@ function AddToList({ setProductsByEan, chosenPrice, id, label, product, quantity
             var quantity_attribute = e.currentTarget?.attributes['quantity'] != undefined ? e.currentTarget?.attributes['quantity']?.value : 1;
 
             setAddedToList([product.id, true]);
+
+            //updateProduct(product, chosenPrice);
     
             if (shoppingList.some(item => item.id === product.id)) {
               const index = shoppingList.findIndex(item => item.id === product.id)

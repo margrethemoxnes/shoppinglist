@@ -40,7 +40,7 @@ function ShoppingList({shoppingList, addToShoppingList }) {
         <Heading as='h1' size='xl' pb={7}>Handleliste</Heading>
         {shoppingList.map((product, index) => (
             <>
-            <Heading as='h2' size='l' key={index}>{product.store}</Heading>
+            <Heading key={index} as='h2' size='l'>{product.store}</Heading>
             
                 <List>
                     {product.items.map((p, p_index) => (
